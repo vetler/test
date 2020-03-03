@@ -12,3 +12,8 @@ jobs:
     - name: Build
       run: gradle build
 
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v1.1
+    
+    - name: Bump Versions
+      uses: remorses/bump-version@v8
