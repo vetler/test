@@ -1,4 +1,4 @@
-name: CI
+name: Continous deployment
 
 on:
   push:
@@ -20,5 +20,35 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+  setup-build-deploy:
+    name: Setup, Build, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '275.0.0'
+          service_account_email: ${{ secrets.SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_CLOUD_RUN_SERVICE_KEY}}
+
+      # Configure gcloud CLI
+      - name: gcloud Set up
+        run: |
+          gcloud config set project $PROJECT_ID
+      # Build and push image to Google Container Registry
+      - name: Build
+        run: |
+          gcloud builds submit -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
+      # Deploy image to Cloud Run
+      - name: Deploy
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --region $RUN_REGION \
+            --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
+            --platform managed
 
 
