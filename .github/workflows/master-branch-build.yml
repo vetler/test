@@ -21,10 +21,14 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
     - name: Deploy service to Cloud Run
-      uses: stefda/action-cloud-run@1.0.0
+      uses: schliflo/action-cloud-run@1.0.0
       with:
-        service_key: ${{ secrets.GCP_CLOUD_RUN_SERVICE_KEY }}
         project: cohesive-envoy-270108
+        service_name: hello
+        key: ${{ secrets.GCP_CLOUD_RUN_SERVICE_KEY }}
         registry: eu.gcr.io
         region: europe-north1
+        working_directory: .
+        check_if_changed: false
+
 
