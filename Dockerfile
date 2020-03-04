@@ -7,7 +7,5 @@ RUN jar -xf ./app.jar
 FROM openjdk:8-jre-alpine
 VOLUME /tmp
 ARG DEPENDENCY=target/dependency
-COPY --from=builder ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=builder ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=builder ${DEPENDENCY}/BOOT-INF/classes /app
+COPY --from=builder ${DEPENDENCY}/build/libs/*.jar /app/lib
 ENTRYPOINT ["java","-cp","app:app/lib/*","net.roeim.test.FooApplication"]
