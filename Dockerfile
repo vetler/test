@@ -1,5 +1,5 @@
-FROM openjdk:8-jdk-alpine AS builder
-WORKDIR target/dependency
+FROM gradle:6.2.1 AS builder
+RUN gradle build --no-daemon 
 ARG APPJAR=build/libs/*.jar
 COPY ${APPJAR} app.jar
 RUN jar -xf ./app.jar
