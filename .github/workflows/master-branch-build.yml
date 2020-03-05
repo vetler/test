@@ -5,14 +5,14 @@ on:
     branches: master
 
 jobs:
-  build:
-
+  test:
+    name: Test and analyze
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: gradle build
+      run: gradle test
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.1
@@ -23,6 +23,8 @@ jobs:
   setup-build-deploy:
     name: Setup, build, and deploy
     runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: cohesive-envoy-270108	
 
     steps:
       - name: Checkout
