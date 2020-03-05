@@ -24,7 +24,8 @@ jobs:
     name: Setup, build, and deploy
     runs-on: ubuntu-latest
     env:
-      PROJECT_ID: cohesive-envoy-270108	
+      PROJECT_ID: cohesive-envoy-270108
+      SERVICE_NAME: test-automatic-build
 
     steps:
       - name: Checkout
