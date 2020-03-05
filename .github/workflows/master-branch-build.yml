@@ -26,6 +26,7 @@ jobs:
     env:
       PROJECT_ID: cohesive-envoy-270108
       SERVICE_NAME: test-automatic-build
+      RUN_REGION:  europe-north1
 
     steps:
       - name: Checkout
